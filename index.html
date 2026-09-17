@@ -5,11 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>暖暖系列有效兑换码合集</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; background-color: #fcf4f8; color: #333; }
+        /* 引入同目录下的 zzby.ttf 字体 */
+        @font-face {
+            font-family: 'zzby';
+            src: url('zzby.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        /* 将 'zzby' 添加到 font-family 的最前面 */
+        body { 
+            font-family: 'zzby', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            padding: 20px; 
+            background-color: #fcf4f8; 
+            color: #333; 
+        }
+        
         h1 { text-align: center; color: #d65c85; }
         .notice { background-color: #ffe8f0; padding: 10px; border-left: 4px solid #d65c85; margin-bottom: 20px; font-size: 0.9em; }
         .tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
-        button { padding: 10px 20px; border: none; border-radius: 5px; background-color: #e0c3d0; color: #fff; cursor: pointer; font-size: 1em; transition: background 0.3s; }
+        button { padding: 10px 20px; border: none; border-radius: 5px; background-color: #e0c3d0; color: #fff; cursor: pointer; font-size: 1em; transition: background 0.3s; font-family: 'zzby', 'Segoe UI', sans-serif; /* 按钮也应用该字体 */ }
         button.active, button:hover { background-color: #d65c85; }
         table { width: 100%; border-collapse: collapse; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
