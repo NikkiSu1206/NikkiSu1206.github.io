@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>暖暖系列有效兑换码合集</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; background-color: #fcf4f8; color: #333; }
+        h1 { text-align: center; color: #d65c85; }
+        .notice { background-color: #ffe8f0; padding: 10px; border-left: 4px solid #d65c85; margin-bottom: 20px; font-size: 0.9em; }
+        .tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
+        button { padding: 10px 20px; border: none; border-radius: 5px; background-color: #e0c3d0; color: #fff; cursor: pointer; font-size: 1em; transition: background 0.3s; }
+        button.active, button:hover { background-color: #d65c85; }
+        table { width: 100%; border-collapse: collapse; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+        th { background-color: #f7e6ec; color: #d65c85; }
+        .copy-btn { padding: 4px 8px; font-size: 0.8em; background-color: #fff; color: #d65c85; border: 1px solid #d65c85; border-radius: 3px; cursor: pointer; }
+        .copy-btn:hover { background-color: #d65c85; color: #fff; }
+        .permanent { color: #27ae60; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <h1>✨ 暖暖系列有效兑换码合集 ✨</h1>
+    
+    <div class="notice">
+        <strong>📌 注意：</strong>本站只显示目前依然有效的兑换码。到期日留白的兑换码默认为长期有效。
+    </div>
+
+    <div class="tabs">
+        <button class="active" onclick="loadCodes('miracle', this)">奇迹暖暖</button>
+        <button onclick="loadCodes('shining', this)">闪耀暖暖</button>
+        <button onclick="loadCodes('infinity', this)">无限暖暖</button>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>服务器</th>
+                <th>兑换码</th>
+                <th>包含奖励</th>
+                <th>到期日</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody id="code-table-body">
+            <!-- 数据将通过 JS 渲染在这里 -->
+        </tbody>
+    </table>
+
+    <script>
+        // 检查兑换码是否有效
+        function isValid(expireDateStr) {
+            if (!expireDateStr || expireDateStr.trim() === "") return true; // 留白即长期有效
+            const expireDate = new Date(expireDateStr);
+            const today = new Date();
+            // 将今天的时间设为 00:00:00 进行公平比较
+            today.setHours(0, 0, 0, 0); 
+            return expireDate >= today;
+        }
+
+        // 加载并渲染数据
+        async function loadCodes(game, btnElement) {
+            // 更新按钮激活状态
+            document.querySelectorAll('.tabs button').forEach(btn => btn.classList.remove('active'));
+            if(btnElement) btnElement.classList.add('active');
+
+            const tbody = document.getElementById('code-table-body');
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">加载中...</td></tr>';
+
+            try {
+                // 读取对应的 JSON 文件
+                const response = await fetch(`${game}.json`);
+                if (!response.ok) throw new Error('数据文件未找到');
+                const codes = await response.json();
+
+                // 过滤有效的兑换码
+                const validCodes = codes.filter(item => isValid(item.expireDate));
+
+                // 渲染表格
+                tbody.innerHTML = '';
+                if (validCodes.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">暂无有效兑换码</td></tr>';
+                    return;
+                }
+
+                validCodes.forEach(item => {
+                    const tr = document.createElement('tr');
+                    const displayDate = item.expireDate ? item.expireDate : '<span class="permanent">长期有效</span>';
+                    
+                    tr.innerHTML = `
+                        <td>${item.server}</td>
+                        <td style="font-family: monospace; font-size: 1.1em;"><strong>${item.code}</strong></td>
+                        <td>${item.reward || '--'}</td>
+                        <td>${displayDate}</td>
+                        <td><button class="copy-btn" onclick="copyText('${item.code}')">复制</button></td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } catch (error) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:red;">加载数据失败，请确保 JSON 文件存在。</td></tr>';
+            }
+        }
+
+        // 复制兑换码功能
+        function copyText(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('兑换码 ' + text + ' 已复制！');
+            }).catch(err => {
+                alert('复制失败，请手动复制。');
+            });
+        }
+
+        // 页面加载时默认显示奇迹暖暖
+        window.onload = () => loadCodes('miracle', document.querySelector('.tabs button'));
+    </script>
+</body>
+</html>
