@@ -1,135 +1,38 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>暖暖系列有效兑换码合集</title>
-    <style>
-        /* 引入同目录下的 zzby.ttf 字体 */
-        @font-face {
-            font-family: 'zzby';
-            src: url('zzby.ttf') format('truetype');
-            font-weight: normal;
-            font-style: normal;
-        }
-
-        /* 将 'zzby' 添加到 font-family 的最前面 */
-        body { 
-            font-family: 'zzby', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            max-width: 800px; 
-            margin: 0 auto; 
-            padding: 20px; 
-            background-color: #fcf4f8; 
-            color: #333; 
-        }
-        
-        h1 { text-align: center; color: #d65c85; }
-        .notice { background-color: #ffe8f0; padding: 10px; border-left: 4px solid #d65c85; margin-bottom: 20px; font-size: 0.9em; }
-        .tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
-        button { padding: 10px 20px; border: none; border-radius: 5px; background-color: #e0c3d0; color: #fff; cursor: pointer; font-size: 1em; transition: background 0.3s; font-family: 'zzby', 'Segoe UI', sans-serif; /* 按钮也应用该字体 */ }
-        button.active, button:hover { background-color: #d65c85; }
-        table { width: 100%; border-collapse: collapse; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
-        th { background-color: #f7e6ec; color: #d65c85; }
-        .copy-btn { padding: 4px 8px; font-size: 0.8em; background-color: #fff; color: #d65c85; border: 1px solid #d65c85; border-radius: 3px; cursor: pointer; }
-        .copy-btn:hover { background-color: #d65c85; color: #fff; }
-        .permanent { color: #27ae60; font-weight: bold; }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#faf7f2">
+  <meta name="description" content="暖暖系列兑换码小站，按游戏与服务器整理，一键复制兑换码。">
+  <title>暖暖的礼物小屋</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="images.css">
+  <link rel="stylesheet" href="fonts.css">
+  <script src="app.js" defer></script>
 </head>
 <body>
-
-    <h1>✨ 暖暖系列有效兑换码合集 ✨</h1>
-    
-    <div class="notice">
-        <strong>📌 注意：</strong>本站只显示目前依然有效的兑换码。到期日留白的兑换码默认为长期有效。
-    </div>
-
-    <div class="tabs">
-        <button class="active" onclick="loadCodes('miracle', this)">奇迹暖暖</button>
-        <button onclick="loadCodes('shining', this)">闪耀暖暖</button>
-        <button onclick="loadCodes('infinity', this)">无限暖暖</button>
-    </div>
-
-    <table>
-        <thead>
-            <tr>
-                <th>服务器</th>
-                <th>兑换码</th>
-                <th>包含奖励</th>
-                <th>到期日</th>
-                <th>操作</th>
-            </tr>
-        </thead>
-        <tbody id="code-table-body">
-            <!-- 数据将通过 JS 渲染在这里 -->
-        </tbody>
-    </table>
-
-    <script>
-        // 检查兑换码是否有效
-        function isValid(expireDateStr) {
-            if (!expireDateStr || expireDateStr.trim() === "") return true; // 留白即长期有效
-            const expireDate = new Date(expireDateStr);
-            const today = new Date();
-            // 将今天的时间设为 00:00:00 进行公平比较
-            today.setHours(0, 0, 0, 0); 
-            return expireDate >= today;
-        }
-
-        // 加载并渲染数据
-        async function loadCodes(game, btnElement) {
-            // 更新按钮激活状态
-            document.querySelectorAll('.tabs button').forEach(btn => btn.classList.remove('active'));
-            if(btnElement) btnElement.classList.add('active');
-
-            const tbody = document.getElementById('code-table-body');
-            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">加载中...</td></tr>';
-
-            try {
-                // 读取对应的 JSON 文件
-                const response = await fetch(`${game}.json`);
-                if (!response.ok) throw new Error('数据文件未找到');
-                const codes = await response.json();
-
-                // 过滤有效的兑换码
-                const validCodes = codes.filter(item => isValid(item.expireDate));
-
-                // 渲染表格
-                tbody.innerHTML = '';
-                if (validCodes.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">暂无有效兑换码</td></tr>';
-                    return;
-                }
-
-                validCodes.forEach(item => {
-                    const tr = document.createElement('tr');
-                    const displayDate = item.expireDate ? item.expireDate : '<span class="permanent">长期有效</span>';
-                    
-                    tr.innerHTML = `
-                        <td>${item.server}</td>
-                        <td style="font-size: 1.1em; letter-spacing: 1px;"><strong>${item.code}</strong></td>
-                        <td>${item.reward || '--'}</td>
-                        <td>${displayDate}</td>
-                        <td><button class="copy-btn" onclick="copyText('${item.code}')">复制</button></td>
-                    `;
-                    tbody.appendChild(tr);
-                });
-            } catch (error) {
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:red;">加载数据失败，请确保 JSON 文件存在。</td></tr>';
-            }
-        }
-
-        // 复制兑换码功能
-        function copyText(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                alert('兑换码 ' + text + ' 已复制！');
-            }).catch(err => {
-                alert('复制失败，请手动复制。');
-            });
-        }
-
-        // 页面加载时默认显示奇迹暖暖
-        window.onload = () => loadCodes('miracle', document.querySelector('.tabs button'));
-    </script>
+  <header class="topbar"><a class="brand" href="#"><img class="brand-logo" src="nikki_logo.png" alt="" width="40" height="40"> 暖暖的礼物小屋<span class="brand-note">NIKKI GIFT ROOM</span></a><span class="top-note">暖暖的心意，搭配师的惊喜 <span>✦</span></span></header>
+  <main>
+    <section class="hero">
+      <figure class="hero-illustration" tabindex="0" aria-describedby="image-credit">
+        <img src="IMG_5644.PNG" alt="身穿黄色花朵礼裙的暖暖" width="1592" height="1978" fetchpriority="high">
+        <figcaption id="image-credit" role="tooltip">该素材来源于必胜客 x 无限暖暖联动</figcaption>
+      </figure>
+      <div class="hero-copy"><p class="eyebrow"><span></span> 给搭配师的礼物清单</p><h1>今天，也有<span>小美好</span><br>等你查收<span class="title-star">✧</span></h1><p class="intro">收集暖暖世界里的每一份惊喜。<br>选好游戏与服务器，把喜欢的礼物带回家。</p><a class="hero-link" href="#collection">查看兑换码 <span>↗</span></a></div>
+    </section>
+    <section id="collection" aria-label="兑换码合集">
+      <div class="collection-title"><div><p class="eyebrow">YOUR LITTLE COLLECTION</p><h2>我的兑换码手册 <span>✧</span></h2></div><p>选一款游戏，看看暖暖为搭配师准备了什么礼物</p></div>
+      <div class="game-tabs" role="tablist" aria-label="选择游戏">
+        <button class="game-tab" id="tab-miracle" role="tab" aria-selected="true" aria-controls="game-panel" data-game="miracle"><span class="game-icon"><img src="Love_Nikki_logo.avif" alt="" width="54" height="54"></span><span><strong>奇迹暖暖</strong><small>MIRACLE NIKKI</small></span><span class="tab-arrow">↗</span></button>
+        <button class="game-tab" id="tab-shining" role="tab" aria-selected="false" aria-controls="game-panel" tabindex="-1" data-game="shining"><span class="game-icon"><img src="Shining_Nikki_logo.avif" alt="" width="54" height="54"></span><span><strong>闪耀暖暖</strong><small>SHINING NIKKI</small></span><span class="tab-arrow">↗</span></button>
+        <button class="game-tab" id="tab-infinity" role="tab" aria-selected="false" aria-controls="game-panel" tabindex="-1" data-game="infinity"><span class="game-icon"><img src="Infinity_Nikki_logo.avif" alt="" width="54" height="54"></span><span><strong>无限暖暖</strong><small>INFINITY NIKKI</small></span><span class="tab-arrow">↗</span></button>
+      </div>
+      <div id="game-panel" role="tabpanel" aria-labelledby="tab-miracle" aria-busy="true"><div id="servers" class="servers"></div></div>
+      <aside class="notice"><span>ⓘ</span><p>兑换前，请确认游戏与服务器。已过期的兑换码会自动隐藏；未填写到期日的兑换码以游戏内实际结果为准。</p></aside>
+    </section>
+    <footer><span>暖暖兑换码合集</span><p>本页面为<a href="https://nikki.su">暖暖小屋</a>分支项目，仅当前页面托管于Github Page</p><small>非官方整理 · 兑换结果以游戏内为准</small></footer>
+  </main>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
 </body>
 </html>

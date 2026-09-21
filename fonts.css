@@ -1,0 +1,13 @@
+/* 使用同目录下的原版字体，加载期间先显示系统字体。 */
+@font-face {
+  font-family: 'zzby';
+  src: url('./zzby.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 覆盖标题、表单控件、兑换码和礼盒标签中的独立字体设置。 */
+html, body, body *, body *::before, body *::after {
+  font-family: 'zzby', 'Microsoft YaHei', 'PingFang SC', sans-serif;
+}

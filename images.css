@@ -1,0 +1,68 @@
+.brand-logo { display: block; width: 40px; height: 40px; object-fit: contain; flex-shrink: 0; }
+footer { flex-wrap: wrap; }
+footer > span, footer > small { flex-shrink: 0; }
+footer > p { line-height: 1.9; flex: 1 1 420px; text-align: center; }
+footer a { color: var(--rose); text-decoration: underline; text-underline-offset: 3px; }
+.collection-title { gap: 20px; }
+@media (max-width: 700px) {
+  .collection-title { align-items: flex-start; flex-direction: column; gap: 12px; }
+  .collection-title > p { display: block; line-height: 1.8; }
+}
+.hero {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  gap: 65px;
+}
+.hero-illustration {
+  position: relative;
+  justify-self: center;
+  width: min(100%, 285px);
+  margin: 0;
+  outline-offset: 8px;
+}
+.hero-illustration > img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 10px 15px #b98d7918);
+}
+.hero-illustration figcaption {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translate(-50%, 6px);
+  width: max-content;
+  max-width: 100%;
+  padding: 10px 14px;
+  border-radius: 9px;
+  background: #695752;
+  color: #fffaf5;
+  font-size: 12px;
+  line-height: 1.6;
+  text-align: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .2s, transform .2s;
+  pointer-events: none;
+}
+.hero-illustration:hover figcaption,
+.hero-illustration:focus figcaption {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+}
+.hero-illustration:focus-visible { outline: 2px solid var(--rose); border-radius: 12px; }
+.game-icon { width: 54px; height: 54px; flex-shrink: 0; border-radius: 50%; overflow: hidden; }
+.game-icon img { display: block; width: 100%; height: 100%; object-fit: cover; }
+@media (max-width: 700px) {
+  .hero { grid-template-columns: minmax(0, .8fr) minmax(0, 1fr); gap: 18px; }
+  .hero h1 { font-size: clamp(20px, 4.4vw, 29px); }
+  .hero .title-star { font-size: 22px; }
+  .hero-illustration { width: min(100%, 240px); }
+  .game-icon { width: 46px; height: 46px; }
+}
+@media (max-width: 480px) {
+  .hero { grid-template-columns: 1fr; gap: 24px; }
+  .hero-illustration { width: 190px; }
+  .hero-copy { justify-self: center; width: max-content; max-width: 100%; }
+  .hero h1 { font-size: 29px; }
+}
