@@ -1,4 +1,9 @@
 .brand-logo { display: block; width: 40px; height: 40px; object-fit: contain; flex-shrink: 0; }
+.top-note:hover { color: var(--rose); }
+@media (max-width: 700px) {
+  .topbar { flex-wrap: wrap; gap: 12px; }
+  .top-note { display: block; margin-left: auto; }
+}
 footer { flex-wrap: wrap; }
 footer > span, footer > small { flex-shrink: 0; }
 footer > p { line-height: 1.9; flex: 1 1 420px; text-align: center; }
