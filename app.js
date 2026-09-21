@@ -17,6 +17,11 @@ function isCurrent(value, now = new Date()) {
   const date = Date.parse(expiry);
   return Number.isFinite(date) && date >= now.getTime();
 }
+function formatExpiry(value) {
+  const expiry = text(value);
+  const match = /^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}):\d{2}\+08:00$/.exec(expiry);
+  return match ? `${match[1]} ${match[2]}（UTC+8）` : expiry;
+}
 function normalizeServer(value, game) {
   const server = text(value);
   if (['国服','國服','大陆服','陸服'].includes(server)) return '国服';
@@ -65,7 +70,7 @@ function render(game, data = [], state = '') {
         copy.setAttribute('aria-label',`复制兑换码 ${code}`);
         copy.addEventListener('click',()=>copyCode(code,copy));
         top.append(element('strong','code-value',code),copy);
-        card.append(top,element('p','reward',text(item.reward) || '奖励以游戏内显示为准'),element('div','expiry',text(item.expireDate) ? `有效期至 ${text(item.expireDate)}` : '未标注到期日'));
+        card.append(top,element('p','reward',text(item.reward) || '奖励以游戏内显示为准'),element('div','expiry',text(item.expireDate) ? `有效期至 ${formatExpiry(item.expireDate)}` : '未标注到期日'));
         list.append(card);
       }
       section.append(list);

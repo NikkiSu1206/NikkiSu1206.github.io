@@ -1,20 +1,32 @@
 [
-    { 
-        "server": "", 
-        "code": "", 
-        "reward": "", 
-        "expireDate": "" 
-    },
-    { 
-        "server": "", 
-        "code": "", 
-        "reward": "", 
-        "expireDate": "" 
-    },
-    { 
-        "server": "", 
-        "code": "", 
-        "reward": "", 
-        "expireDate": "" 
-    } 
+  {
+    "server": "国服",
+    "code": "暖暖星光闪耀浙江横店",
+    "reward": "粉钻 × 100",
+    "expireDate": "2026-09-27T23:59:59+08:00"
+  },
+  {
+    "server": "国服",
+    "code": "玉莲双形态好好好",
+    "reward": "粉钻 × 100",
+    "expireDate": "2026-09-28T23:59:59+08:00"
+  },
+  {
+    "server": "国服",
+    "code": "粉带建筑师还在发力",
+    "reward": "梦影瓶 × 10",
+    "expireDate": "2026-09-25T23:59:59+08:00"
+  },
+  {
+    "server": "台服",
+    "code": "玉蓮雙形態好好好",
+    "reward": "鑽石 × 100",
+    "expireDate": "2026-09-28T23:59:59+08:00"
+  },
+  {
+    "server": "台服",
+    "code": "nAkQVKxhtPBV",
+    "reward": "鑽石 × 80 + 金幣 × 30000",
+    "expireDate": "2026-09-22T23:59:59+08:00"
+  }
 ]
