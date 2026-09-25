@@ -43,6 +43,12 @@
   },
   {
     "server": "台服",
+    "code": "nAkRa6tVbqFR",
+    "reward": "粉鑽 × 100",
+    "expireDate": "2026-09-30T23:59:59+08:00"
+  },
+  {
+    "server": "台服",
     "code": "nAkUM6T3jd4C",
     "reward": "鑽石 × 50 + 記憶之軌 × 10 + 金幣 × 50000",
     "expireDate": "2026-10-16T23:59:59+08:00"
