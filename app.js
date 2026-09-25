@@ -3,6 +3,9 @@ const games = {miracle:['国服','台服'],shining:['国服','台服'],infinity:
 const tabs = [...document.querySelectorAll('[data-game]')];
 const panel = document.getElementById('game-panel');
 const servers = document.getElementById('servers');
+const gameTabs = document.querySelector('.game-tabs');
+const miracleEmptyNote = document.getElementById('miracle-empty-note');
+const gameData = {};
 let currentGame = 'miracle';
 let requestId = 0;
 let toastTimer;
@@ -28,6 +31,26 @@ function normalizeServer(value, game) {
   if (game === 'infinity' && ['国际服','國際服','全球服'].includes(server)) return '国际服';
   if (game !== 'infinity' && ['台服','臺服','港澳台服','台港澳服','繁中服'].includes(server)) return '台服';
   return server;
+}
+function hasAvailableCode(data) {
+  return Array.isArray(data) && data.some(item => item && text(item.code) && isCurrent(item.expireDate));
+}
+async function getGameData(game) {
+  if (gameData[game]) return gameData[game];
+  const response = await fetch(`${game}.json`, {cache:'no-cache'});
+  if (!response.ok) throw new Error('Load failed');
+  const data = await response.json();
+  if (!Array.isArray(data)) throw new Error('Invalid data');
+  gameData[game] = data;
+  return data;
+}
+function updateGameAvailability() {
+  const hideMiracle = Array.isArray(gameData.miracle) && !hasAvailableCode(gameData.miracle);
+  const miracleTab = tabs.find(tab => tab.dataset.game === 'miracle');
+  miracleTab.hidden = hideMiracle;
+  miracleEmptyNote.hidden = !hideMiracle;
+  gameTabs.classList.toggle('is-reduced', hideMiracle);
+  if (hideMiracle && currentGame === 'miracle') currentGame = 'shining';
 }
 function element(tag, className, content) {
   const node = document.createElement(tag);
@@ -86,10 +109,7 @@ async function loadGame(game) {
   panel.setAttribute('aria-labelledby',`tab-${game}`);panel.setAttribute('aria-busy','true');
   render(game,[],'loading');
   try {
-    const response = await fetch(`${game}.json`,{cache:'no-cache'});
-    if (!response.ok) throw new Error('Load failed');
-    const data = await response.json();
-    if (!Array.isArray(data)) throw new Error('Invalid data');
+    const data = await getGameData(game);
     if (id === requestId) render(game,data);
   } catch {if (id === requestId) render(game,[],'error');}
   finally {if (id === requestId) panel.setAttribute('aria-busy','false');}
@@ -98,11 +118,18 @@ tabs.forEach((tab,index)=>{
   tab.addEventListener('click',()=>loadGame(tab.dataset.game));
   tab.addEventListener('keydown',event=>{
     let next;
-    if(event.key==='ArrowRight') next=(index+1)%tabs.length;
-    if(event.key==='ArrowLeft') next=(index+tabs.length-1)%tabs.length;
+    const visibleTabs = tabs.filter(item => !item.hidden);
+    const visibleIndex = visibleTabs.indexOf(tab);
+    if(event.key==='ArrowRight') next=(visibleIndex+1)%visibleTabs.length;
+    if(event.key==='ArrowLeft') next=(visibleIndex+visibleTabs.length-1)%visibleTabs.length;
     if(event.key==='Home') next=0;
-    if(event.key==='End') next=tabs.length-1;
-    if(next!==undefined){event.preventDefault();tabs[next].focus();loadGame(tabs[next].dataset.game);}
+    if(event.key==='End') next=visibleTabs.length-1;
+    if(next!==undefined){event.preventDefault();visibleTabs[next].focus();loadGame(visibleTabs[next].dataset.game);}
   });
 });
-loadGame(currentGame);
+async function initialize() {
+  await Promise.allSettled(Object.keys(games).map(async game => getGameData(game)));
+  updateGameAvailability();
+  loadGame(currentGame);
+}
+initialize();

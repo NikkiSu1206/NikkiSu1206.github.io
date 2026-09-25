@@ -58,12 +58,15 @@ footer a { color: var(--rose); text-decoration: underline; text-underline-offset
 .hero-illustration:focus-visible { outline: 2px solid var(--rose); border-radius: 12px; }
 .game-icon { width: 54px; height: 54px; flex-shrink: 0; border-radius: 50%; overflow: hidden; }
 .game-icon img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.game-tabs.is-reduced { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 780px; margin-left: auto; margin-right: auto; }
+.game-availability-note { margin: -9px auto 22px; color: var(--muted); font-size: 12px; text-align: center; }
 @media (max-width: 700px) {
   .hero { grid-template-columns: minmax(0, .8fr) minmax(0, 1fr); gap: 18px; }
   .hero h1 { font-size: clamp(20px, 4.4vw, 29px); }
   .hero .title-star { font-size: 22px; }
   .hero-illustration { width: min(100%, 240px); }
   .game-icon { width: 46px; height: 46px; }
+  .game-tabs.is-reduced { max-width: none; }
 }
 @media (max-width: 480px) {
   .hero { grid-template-columns: 1fr; gap: 24px; }
