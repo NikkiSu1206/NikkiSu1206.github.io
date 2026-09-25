@@ -1,6 +1,18 @@
 [
   {
     "server": "国服",
+    "code": "月饼圆圆暖暖甜甜",
+    "reward": "粉钻 × 100",
+    "expireDate": "2026-10-25T23:59:59+08:00"
+  },
+  {
+    "server": "国服",
+    "code": "nBen2a5vxFVe",
+    "reward": "粉钻 × 50 + 记忆之轨 × 10 + 金币 × 50000",
+    "expireDate": "2026-10-16T23:59:59+08:00"
+  },
+  {
+    "server": "国服",
     "code": "nBfJpb7MHPcP",
     "reward": "幻之券 × 10",
     "expireDate": ""
@@ -28,6 +40,12 @@
     "code": "粉带建筑师还在发力",
     "reward": "梦影瓶 × 10",
     "expireDate": "2026-09-25T23:59:59+08:00"
+  },
+  {
+    "server": "台服",
+    "code": "nAkUM6T3jd4C",
+    "reward": "鑽石 × 50 + 記憶之軌 × 10 + 金幣 × 50000",
+    "expireDate": "2026-10-16T23:59:59+08:00"
   },
   {
     "server": "台服",
