@@ -32,8 +32,10 @@ function normalizeServer(value, game) {
   if (game !== 'infinity' && ['台服','臺服','港澳台服','台港澳服','繁中服'].includes(server)) return '台服';
   return server;
 }
-function hasAvailableCode(data) {
-  return Array.isArray(data) && data.some(item => item && text(item.code) && isCurrent(item.expireDate));
+function hasVisibleCodeForGame(game, data) {
+  return Array.isArray(data) && games[game].some(serverName => data.some(item =>
+    item && text(item.code) && normalizeServer(item.server, game) === serverName && isCurrent(item.expireDate)
+  ));
 }
 async function getGameData(game) {
   if (gameData[game]) return gameData[game];
@@ -45,7 +47,7 @@ async function getGameData(game) {
   return data;
 }
 function updateGameAvailability() {
-  const hideMiracle = Array.isArray(gameData.miracle) && !hasAvailableCode(gameData.miracle);
+  const hideMiracle = Array.isArray(gameData.miracle) && !hasVisibleCodeForGame('miracle', gameData.miracle);
   const miracleTab = tabs.find(tab => tab.dataset.game === 'miracle');
   miracleTab.hidden = hideMiracle;
   miracleEmptyNote.hidden = !hideMiracle;
