@@ -1,8 +1,17 @@
-.brand-logo { display: block; width: 40px; height: 40px; object-fit: contain; flex-shrink: 0; }
-.top-note:hover { color: var(--rose); }
+.site-bar { border-bottom: 1px solid var(--line); background: var(--paper); }
+.bar-inner { max-width: 1184px; min-height: 55px; margin: auto; padding: 0 40px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.world-brand { display: flex; align-items: center; gap: 9px; color: var(--ink); font-size: 13px; font-weight: 700; letter-spacing: .02em; }
+.world-brand img { width: 25px; height: 25px; object-fit: contain; }
+.return-link { color: var(--muted); font-size: 13px; }
+.return-link:hover, .local-link:hover { color: var(--rose); }
+.local-bar { position: sticky; top: 0; z-index: 5; border-bottom: 1px solid var(--line); background: color-mix(in srgb, var(--paper) 92%, transparent); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); }
+.local-bar .bar-inner { min-height: 51px; }
+.local-title { color: var(--ink); font-size: 18px; font-weight: 700; letter-spacing: -.03em; }
+.local-link { color: var(--rose); font-size: 12px; }
 @media (max-width: 700px) {
-  .topbar { flex-wrap: wrap; gap: 12px; }
-  .top-note { display: block; margin-left: auto; }
+  .bar-inner { min-height: 50px; padding-left: 20px; padding-right: 20px; }
+  .world-brand, .return-link { font-size: 12px; }
+  .local-title { font-size: 16px; }
 }
 footer { flex-wrap: wrap; }
 footer > span, footer > small { flex-shrink: 0; }
